@@ -1,0 +1,238 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1cm]{geometry}
+\usepackage[slovene]{babel}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\begin{document}
+\section{Splošno}
+Če kje piše \textcolor{gray}{očitno} in ni očitno bi bilo super če bi lahko dobil email da popravim, ne vem točno koliko detajlov je treba pisat.
+
+
+\section{Naloga 1}
+Ugibamo $u(x,y) = \sinh(x)\sin(y)/\sinh(\pi )$ 
+
+(Ugibanje ni naključno. Naredil sem simulacijo funkcije in pogledal grafe. Kalkulacije so v mapi kalkulacije n1\_1\_plots.ipynb, ki bi jih moral github lepo prikazat.)
+Preverimo da funkcija ustreza pogojem
+
+
+$u(x,0) = \sinh(x)\sin(0)/\sinh(\pi ) = 0$ in $u(x,\pi) = \sinh(x)\sin(\pi)/\sinh(\pi ) = 0$.
+
+
+$u(0,y) = \sinh(0)\sin(y)/\sinh(\pi ) = 0$ in $u(\pi,y) = \sinh(\pi)\sin(y)/\sinh(\pi ) = sin(y)$.
+
+$u_x = \cosh(x)\sin(y)/\sinh(\pi )$ in $u_y = \sinh(x)\cos(y)/\sinh(\pi )$.
+
+
+$u_{xx} = \sinh(x)\sin(y)/\sinh(\pi )$ in $u_{yy} = -\sinh(x)\sin(y)/\sinh(\pi )$.
+
+Vidimo da je $u$ harmonična funkcija ki ustreza pogojem naloge. 
+
+\section{Naloga 2}
+Naj bo $v=u-y-y^2$. Rešujemo nalogo $v_{|\partial\Omega}=0$ in $\Delta v=2$ na $\Omega$. Iz \href{https://ucilnica.fmf.uni-lj.si/pluginfile.php/42685/mod_folder/content/0/8Elipt.pdf?forcedownload=1}{Vaje 8 stran 6} vemo da je $v(x,y)=\frac{x^2+y^2-1}{2}$.
+Sledi $u=\frac{x^2-y^2-2y-1}{2}$
+
+\section{Naloga 3}
+Vidimo da je $u$ na robu vedno znotraj $[0,1]$. Dokazujemo $0<u<1$ na $\Omega$. Po šibkem principu maksima očitno sledi da je
+$0\le u\le 1$ na $\Omega$.
+
+Dokazati je potrebno le še da $u(x,y)\neq 0$ in $u(x,y)\neq 1$ znotraj $\Omega$. Vemo že da je $u$ omejen z $[0,1]$ vrednostmi na robu. Po krepkem principu maksima
+ bi moral biti $u$ konstanten če bi dosegel ekstreme na $\Omega$. Vendar $u$ po robu ni konstanten zato $u$ ne more doseči ekstremov znotraj $\Omega$.
+
+
+$u(0)$ izračunamo po princupu povprečja:
+
+\[u(0)=\frac{1}{2\pi}\int_{-\pi/2}^{\pi/2}\sin^2(2\phi)d\phi\]
+To je precej preprost integral ki nam da $u(0)=\frac{1}{4}$.
+
+\section{Naloga 4}
+Najprej predelamo poissonovo jedro v kartezične koordinate da dobimo 
+
+\[u(x,y) = \frac{1}{2\pi}\int_0^{2\pi} \frac{1-x^2-y^2}{1-2x\cos(\theta)-2y\sin(\theta)+x^2+y^2}f(\theta)d\theta\]
+
+$f(\theta)$ je enak nič za $\pi/2\leq \theta \leq 3\pi/2$ in enak $\cos(\theta)$ za ostale $\theta$. 
+
+Torej je 
+\[u(x,y) = \frac{1-x^2-y^2}{2\pi}\int_{-\pi/2}^{\pi/2} \frac{\cos(\theta)}{1-2x\cos(\theta)-2y\sin(\theta)+x^2+y^2}d\theta\]
+
+
+Rešujemo torej
+\[ \int \frac{\cos(\theta)}{1-2x\cos(\theta)-2y\sin(\theta)+x^2+y^2}d\theta\]
+
+Z nekaj spretnosti integral pretvorimo v
+\begin{align*}
+-\frac{4y}{4x^2+4y^2} \int \frac{x\sin(\theta)-y\cos(\theta)}{1-2x\cos(\theta)-2y\sin(\theta)+x^2+y^2}d\theta \\
++ \frac{2x(1+x^2+y^2)}{4x^2+4y^2} \int \frac{1}{1-2x\cos(\theta)-2y\sin(\theta)+x^2+y^2}d\theta \\
++ \frac{2x}{4x^2+4y^2} \int 1 d\theta
+\end{align*}
+
+Prvi del preprosto rešimo s substitucijo $u = 1-2x\cos(\theta)-2y\sin(\theta)+x^2+y^2$, torej je $du = 2x\sin(\theta)-2y\cos(\theta)d\theta$ in dobimo
+\[\int \frac{x\sin(\theta)-y\cos(\theta)}{1-2x\cos(\theta)-2y\sin(\theta)+x^2+y^2}d\theta = \frac{1}{2}\int \frac{1}{u}du = \frac{1}{2}\ln(u)\]
+
+Tretji integral je seveda trivialen, problem povzroča le drugi integral.
+
+Za minimizacijo tipkanja rešimo 
+\[ \int \frac{1}{a\sin(x)+b\cos(x)+c} dx\]
+Naredimo substitucijo 
+\[u = -\frac{2arctanh(\frac{a+(c-b)\tan(x/2)}{\sqrt{a^2+b^2-c^2}})}{\sqrt{a^2+b^2-c^2}}\]
+Odvajamo in poenostavimo da dobimo 
+\[du = \frac{1}{a\sin(x)+b\cos(x)+c} dx\]
+
+Torej se integral poenostavi v $\int du$ kar pa je trivialno. 
+
+Ko vstavimo vse spremenljivke nazaj vstavimo meje in poenostavimo, dobimo 
+\[u(x,y) = \frac{2x(x^2+y^2+1)(\arctan(\frac{y^2-2y+x^2+2x+1}{1-x^2-y^2})+\arctan(\frac{y^2+2y+x^2+2x+1}{1-x^2-y^2}))-(1-x^2-y^2)(\pi x+y\log \frac{x^2+(y-1)^2}{x^2+(y+1)^2})}{4\pi(x^2+y^2)}\]
+
+
+
+
+
+
+
+
+\section{Naloga 6}
+\textcolor{gray}{Očitno} so vsi polinomi stopnje nič in ena harmonični.
+
+Gledamo polinome stopnje vsaj 2
+Naj bo $p(x,y)=\sum_{i=0}^n a_ix^{n-i}y^i$ polinom z monomi stopnje $n$. Potem je \[p_{xx}+p_{yy}=\sum_{i=0}^{n-2} a_i(n-i)(n-i-1)x^{n-i-2}y^i+\sum_{i=2}^n a_ii(i-1)x^{n-i}y^{i-2}\]
+
+Z zamikom druge vsote dobimo \[p_{xx}+p_{yy}=\sum_{i=0}^{n-2} a_i(n-i)(n-i-1)x^{n-i-2}y^i+\sum_{i=0}^{n-2} a_{i+2}(i+2)(i+1)x^{n-i-2}y^i\].
+
+Iz literature vemo da je polinom enak nič na $\mathbb{R}^2$ če je vsak monom enak nič zato združimo vsote
+\[0 = \sum_{i=0}^{n-2} (a_i(n-i)(n-i-1) + a_{i+2}(i+2)(i+1))x^{n-i-2}y^i\]
+
+Dobimo torej sistem
+\begin{align*}
+a_0(n)(n-1) + a_2(2)(1) &= 0\\
+a_1(n-1)(n-2) + a_3(3)(2) &= 0\\
+&\vdots\\
+a_{n-2}(2)(1) + a_n(n)(n-1) &= 0
+\end{align*}
+
+Vidimo da lahko za vsako (neničelno) izbiro konstant $a_0$ in $a_1$ ostale konstante izračunamo rekurzivno kot
+\[a_{i+2} = -\frac{a_i(n-i)(n-i-1)}{(i+2)(i+1)}\]
+
+Torej s tem postopkom dobimo vse možne harmonične homogene polinome. 
+
+Poglejmo si še primer z več spremenljivkami.
+Naj bo $n$ stopnja vsakega monoma. 
+Za $n<2$ je spet \textcolor{gray}{očitno} da je $p$ harmoničen. 
+Edini zanimiv primer je $n=2$.
+Naj bo $p$ polinom v $d>2$ spremeljivkah. Lahko pišemo \[p(x_1, \dots, x_d) = \sum_1^d a_ix_i^2 + \sum_{i<j}^d b_{ij}x_ix_j \]
+Potem je $\Delta p = 2\sum_1^d a_i = 0$ natanko tedaj ko je $\sum_1^d a_i = 0$ kar nam da karakterizacijo teh polinomov $\square$.
+
+\section{Naloga 10}
+
+$M$ je naraščajoča funkcija ker z večjim $r$ pobiramo maksimum večje množice. Potrebno je torej le dokazati da je strogo naraščajoča. Denimo da obstajata
+$r_1, r_2$ da je $r_1<r_2$ in $M(r_1)=M(r_2)$. Poglejmo območje $D=B((0,0), r_2)$. Iz $M(r_1)=M(r_2)$ vidimo da $u$ doseže ekstrem znotraj območja $D$
+kar po krepkem principu maksima pomeni da je $u$ konstanten. To pa je v protislovju s predpostavko naloge. 
+
+\section{Naloga 13}
+Dokazali bomo le eno neenakost ker je dokaz druge \textcolor{gray}{očiten} iz dokaza prve.
+Poissonovo jedro nam da 
+\[ u(r, \phi) = \int_0^{2\pi} \frac{1}{2\pi} \frac{R^2-r^2}{R^2-2Rrcos(\phi-\theta)+r^2}f(\theta)d\theta\]
+V kompleksnem dobimo
+\[ u(z) = \int_0^{2\pi} \frac{1}{2\pi} \frac{R^2-|z|^2}{R^2-2R|z|cos(arg(z)+\theta)+|z|^2}f(\theta)d\theta\]
+Ker je kosinus omejen z $[-1,1]$  in so vsi členi v integralu \textcolor{gray}{očitno} večji od 0, lahko dobimo zgornjo mejo tako da čim bolj znižamo imenovalec. Nastaviomo kosinus na $1$ da dobimo
+\begin{align*}
+u(z) \le \int_0^{2\pi} \frac{1}{2\pi} \frac{R^2-|z|^2}{R^2-2R|z|+|z|^2}f(\theta)d\theta \\
+= \int_0^{2\pi} \frac{1}{2\pi} \frac{R^2-|z|^2}{(R-|z|)^2}f(\theta)d\theta \\
+= \frac{R^2-|z|^2}{(R-|z|)^2} \frac{1}{2\pi} \int_0^{2\pi} f(\theta)d\theta \\
+= \frac{R+|z|}{R-|z|} f(0)
+\end{align*}
+kjer v zadnjem koraku uporabimo princip povprečja in krajšamo razliko kvadratov.
+
+\section{Naloga 14}
+BŠS je $u$ omejena navzdol z neko spodnjo mejo $L$. Funkcija $v=u+L$ je potem \textcolor{gray}{očitno} harmonična in pozitivna zato rajši dokazujemo da je $v$ konstantna kar je očitno dovolj 
+da rešimo nalogo. Naj bo $m=v(0,0)$. Dokazali bomo da je $v(z)\leq 3m$, torej ima $v$ zgornjo in spodnjo mejo in je zato konstantna.
+
+Vemo da je $v$ harmonična na $B(0, r)$ za recimo $r=2|z|$. Potem lahko ocenimo 
+\begin{align*}
+    v(z) \le \frac{r+|z|}{r-|z|}v(0)\\
+    v(z) \le \frac{3|z|}{|z|}m\\
+    v(z) \le 3m\\
+\end{align*}
+$\square$.
+\section{Naloga 16}
+Naj bo $D = B(0, R)$. Definiramo $\Omega_- = \{x+iy: x^2+y^2<R^2, y<0\}$. D razdelimo na 3 dele $D=\Omega \cup \Omega_- \cup \{x, |x|<R\}$.
+
+Naj bo $v$ definiran kot v navodilu. Dovolj je dokazati da je $v$ harmonična na vsakem delu $D$ posebej. 
+\textcolor{gray}{Očitno} je da je $v$ harmonična na $\Omega$ ker je tam enaka $u$. $v$ je harmonična tudi na $\Omega_-$ ker je tam enaka $-u$ in je produkt neke konstante s 
+harmonično funkcijo še vedno harmonična funkcija. Zanimiv del naloge je le dokazati harmoničnost pri $y=0$.
+Naj bo torej $x\in (-R, R)$. Iz literature(predavanja ali pa bom citiral \href{https://en.wikipedia.org/wiki/Harmonic_function}{wikipedijo}) vemo da je $u$ na neki točki 
+harmonična če izpolnjuje princip povprečja. Naj bo torej $r$ poljubno število da je $B((x, 0), r)\subset D$. Vemo da je $v(x,0)=0$. Moramo torej le dokazati da je
+\[ 0 = \frac{1}{2\pi}\int_0^{2\pi} v(x+r\cos(\phi), r\sin(\phi))d\phi\] Množimo z $2\pi$ in računamo
+
+\begin{align*}
+\int_0^{2\pi} v(x+r\cos(\phi), r\sin(\phi))d\phi\\
+= \int_0^{\pi} v(x+r\cos(\phi), r\sin(\phi))d\phi + \int_{\pi}^{2\pi} v(x+r\cos(\phi), r\sin(\phi))d\phi\\
+= \int_0^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi + \int_{\pi}^{2\pi} -u(x+r\cos(\phi), -r\sin(\phi))d\phi \\
+= \int_0^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi - \int_{\pi}^{2\pi} u(x+r\cos(\phi), -r\sin(\phi))d\phi =
+\end{align*}
+kjer sem upošteval da je $\sin(phi)<0$ za $\phi\in (\pi, 2\pi)$
+Načeloma smo konec ampak je treba narediti malo rotacije da vidimo da je to res enako 0. 
+
+Uporabimo substitucijo $\psi = \phi - \pi$ v drugi integral in dobimo
+\begin{align*}
+\int_0^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi - \int_{0}^{\pi} u(x+r\cos(\psi+\pi), -r\sin(\psi+\pi))d\psi \\
+= \int_0^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi - \int_{0}^{\pi} u(x-r\cos(\psi), r\sin(\psi))d\psi \\
+= \int_0^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi - \int_{0}^{\pi} u(x-r\cos(\phi), r\sin(\phi))d\phi
+\end{align*}
+
+Uporabimo substitucijo $\psi = \pi - \phi$ v drugi integral in dobimo
+\begin{align*}
+= \int_0^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi - \int_{0}^{\pi} u(x+r\cos(\psi), r\sin(\psi))d\psi \\
+= \int_0^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi - \int_{0}^{\pi} u(x+r\cos(\phi), r\sin(\phi))d\phi \\
+= 0
+\end{align*}
+
+$\square$
+
+
+\section{Naloga 17}
+% Ideja: razsirimo u na R^2, potem je u omejena in zato očitno konstanta. Edino razsiritev je treba malo argumentirat ker dobimo le za neke krogce izrek.
+Naj bo $v$ funckija definirana na $R^2$ kot
+
+% definicija funkcije po delih
+\[ v(x,y) = \begin{cases} 
+      u(x,y) & y\geq 0 \\
+      -u(x,-y) & y < 0
+   \end{cases}
+\]
+
+Očitno je $v$ omejena funkcija na $R^2$, zato je dovolj da dokažem da je harmonična ker je potem konstanta in je $v(0,0)=0$ torej je $v=0$ in je potem tudi $u=0$. 
+
+Naj bo torej $(x, y)$ poljubna točka iz $R^2$ na razdalji $r=\sqrt(x^2+y^2)$. 
+
+Naj bo $\Omega = \{x+iy\in \mathbb{C}: x^2+y^2<(r+1)^2, y>0\}\subset \mathbb{H}$. Očitno je $u$ zožan na $\Omega$ harmonična funkcija.
+
+Potem je po prejšnji nalogi $v$ harmonična na $B(0, r+1)$ kar pa vsebuje $(x, y)$ po konstrukciji.
+
+Torej je $v$ harmonična na $R^2$ ker sem ravnokar dokazal da je harmonična na poljubni točki v $R^2$. $\square$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
